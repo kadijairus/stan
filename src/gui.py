@@ -12,7 +12,7 @@ try:
 except metadata.PackageNotFoundError:
     __version__ = "1.0.0"
 
-SCRIPT_TO_RUN = "./dist/Labelgenerator.exe"
+SCRIPT_TO_RUN = "./dist/Ruudi.exe"
 CLI_COMMAND = ["uv", "run", SCRIPT_TO_RUN]
 
 
@@ -120,7 +120,7 @@ class App:
         """Injects default state values into inputs."""
         self.first_element.insert(0, "V26001")
         self.second_element.insert(0, "M1")
-        self.third_element_range.insert(0, "1-3")
+        self.third_element_range.insert(0, "1-2")
         self.fourth_element.insert(0, "Tamm")
 
     def start_printing(self) -> None:
