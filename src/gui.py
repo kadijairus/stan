@@ -12,10 +12,8 @@ try:
 except metadata.PackageNotFoundError:
     __version__ = "1.0.0"
 
-# Define how to call your existing CLI tool.
-# During dev, this might be ["uv", "run", "run.py"].
-# In production, this will just be ["label_generator.exe"].
-CLI_COMMAND = ["uv", "run", "./dist/Labelgenerator.exe"]
+SCRIPT_TO_RUN = "./dist/Labelgenerator.exe"
+CLI_COMMAND = ["uv", "run", SCRIPT_TO_RUN]
 
 
 class Color(Enum):
@@ -80,23 +78,23 @@ class App:
         # Inputs with Grid layout inside the boundary frame
         tk.Label(self.label_parts_frame, text=f"{Label.FIRST_ELEMENT_TO_BARCODE.value}:", font=("Verdana", 10, "bold")).grid(row=0, column=0,
                                                                                                      sticky="w", pady=6)
-        self.ent_proov = tk.Entry(self.label_parts_frame)
-        self.ent_proov.grid(row=0, column=1, sticky="ew", padx=(10, 0), pady=6)
+        self.first_element = tk.Entry(self.label_parts_frame)
+        self.first_element.grid(row=0, column=1, sticky="ew", padx=(10, 0), pady=6)
 
         tk.Label(self.label_parts_frame, text=f"{Label.SECOND_ELEMENT_TO_BARCODE.value}:", font=("Verdana", 10, "bold")).grid(row=1, column=0,
                                                                                                      sticky="w", pady=6)
-        self.ent_tutar = tk.Entry(self.label_parts_frame)
-        self.ent_tutar.grid(row=1, column=1, sticky="ew", padx=(10, 0), pady=6)
+        self.second_element = tk.Entry(self.label_parts_frame)
+        self.second_element.grid(row=1, column=1, sticky="ew", padx=(10, 0), pady=6)
 
         tk.Label(self.label_parts_frame, text=f"{Label.THIRD_ELEMENT_TO_BARCODE_RANGE.value}:", font=("Verdana", 10, "bold")).grid(row=2, column=0,
                                                                                                      sticky="w", pady=6)
-        self.ent_vahemik = tk.Entry(self.label_parts_frame)
-        self.ent_vahemik.grid(row=2, column=1, sticky="ew", padx=(10, 0), pady=6)
+        self.third_element_range = tk.Entry(self.label_parts_frame)
+        self.third_element_range.grid(row=2, column=1, sticky="ew", padx=(10, 0), pady=6)
 
-        tk.Label(self.label_parts_frame, text=f"{Label.DATA_TO_LABEL.value}:", font=("Verdana", 10, "bold")).grid(row=3, column=0,
+        tk.Label(self.label_parts_frame, text=f"{Label.FOURTH_ELEMENT_TO_LABEL.value}:", font=("Verdana", 10, "bold")).grid(row=3, column=0,
                                                                                                  sticky="w", pady=6)
-        self.ent_nimi = tk.Entry(self.label_parts_frame)
-        self.ent_nimi.grid(row=3, column=1, sticky="ew", padx=(10, 0), pady=6)
+        self.fourth_element = tk.Entry(self.label_parts_frame)
+        self.fourth_element.grid(row=3, column=1, sticky="ew", padx=(10, 0), pady=6)
 
         # Pre-filling field parameters with default values
         self._prefill_fields()
@@ -120,10 +118,10 @@ class App:
 
     def _prefill_fields(self) -> None:
         """Injects default state values into inputs."""
-        self.ent_proov.insert(0, "V26001")
-        self.ent_tutar.insert(0, "M1")
-        self.ent_vahemik.insert(0, "1-3")
-        self.ent_nimi.insert(0, "Tamm")
+        self.first_element.insert(0, "V26001")
+        self.second_element.insert(0, "M1")
+        self.third_element_range.insert(0, "1-3")
+        self.fourth_element.insert(0, "Tamm")
 
     def start_printing(self) -> None:
         """Pre-processes input variables and dispatches execution sub-thread."""
@@ -132,17 +130,20 @@ class App:
         def clean(val: str) -> str:
             return val.replace(".", "").replace(",", "").strip()
 
-        proov = clean(self.ent_proov.get())
-        tutar = clean(self.ent_tutar.get())
-        vahemik = clean(self.ent_vahemik.get())
-        nimi = clean(self.ent_nimi.get())
+        cleaned_first_element = clean(self.first_element.get())
+        cleaned_second_element = clean(self.second_element.get())
+        cleaned_third_element_range = clean(self.third_element_range.get())
+        cleaned_fourth_element = clean(self.fourth_element.get())
 
-        if not proov:
+        if not cleaned_first_element:
             self.status_frame.update_status(f"⚠️ {Label.ERROR_NO_FIRST_ELEMENT.value}", Color.RED.value)
             return
 
         # Compiles down into clean comma-delimited stream format
-        payload = f"{proov},{tutar},{vahemik},{nimi}"
+        payload = (f"{cleaned_first_element},"
+                   f"{cleaned_second_element}."
+                   f"{cleaned_third_element_range},"
+                   f"{cleaned_fourth_element}")
 
         self.status_frame.update_status(f"{Label.FORWARDING_DATA.value}'{payload}'.", Color.TEXT_MAIN.value)
         self.btn_print.config(state="disabled")
