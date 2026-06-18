@@ -1,0 +1,14 @@
+[project]
+name = "stan"
+version = "0.1"
+description = "Runs script with your input"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "customtkinter>=5.2.2",
+]
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.20.0",
+]
