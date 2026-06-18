@@ -14,7 +14,7 @@ class Label(Enum):
     FIRST_ELEMENT_TO_BARCODE = "Juhtumi number"
     SECOND_ELEMENT_TO_BARCODE = "Tütar"
     THIRD_ELEMENT_TO_BARCODE_RANGE = "Vahemik"
-    DATA_TO_LABEL = "Nimi"
+    FOURTH_ELEMENT_TO_LABEL = "Nimi"
 
     # Buttons and actions
     RUN = "Tee etikette"
