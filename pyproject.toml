@@ -1,6 +1,6 @@
 [project]
 name = "stan"
-version = "1.0"
+version = "1.1"
 description = "Runs script with your input"
 readme = "README.md"
 requires-python = ">=3.10"

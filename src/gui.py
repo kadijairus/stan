@@ -1,3 +1,4 @@
+import glob
 import tkinter as tk
 import subprocess
 import threading
@@ -12,8 +13,33 @@ try:
 except metadata.PackageNotFoundError:
     __version__ = "1.0.0"
 
-SCRIPT_TO_RUN = "./dist/Ruudi.exe"
-CLI_COMMAND = ["uv", "run", SCRIPT_TO_RUN]
+import os
+import sys
+
+# 1. Dynamically locate the directory where Stan.exe actually lives
+if getattr(sys, 'frozen', False):
+    # Running as a compiled PyInstaller executable (Stan.exe)
+    EXE_DIR = os.path.dirname(sys.executable)
+else:
+    # Running as loose code during local development
+    EXE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# 2. Find any file matching "Ruudi*.exe" inside EXE_DIR
+DEFAULT_SCRIPT_NAME = "Ruudi"
+search_pattern = os.path.join(EXE_DIR, f"{DEFAULT_SCRIPT_NAME}*.exe")
+matching_files = glob.glob(search_pattern)
+
+if matching_files:
+    # Sort alphabetically to ensure consistent selection (e.g., v1.0 before v2.0)
+    matching_files.sort()
+    PATH_TO_SCRIPT = matching_files[0]  # Take the first match
+    print(f"Success: Found backend engine at {PATH_TO_SCRIPT}")
+else:
+    # Fallback to default name if no match is found, so it fails gracefully later
+    PATH_TO_SCRIPT = os.path.join(EXE_DIR, f"{DEFAULT_SCRIPT_NAME}.exe")
+    print(f"Warning: No Ruudi*.exe found. Falling back to default: {PATH_TO_SCRIPT}")
+
+CLI_COMMAND = [PATH_TO_SCRIPT]
 
 
 class Color(Enum):
@@ -173,10 +199,10 @@ class App:
 
         except FileNotFoundError:
             self.window.after(0, lambda: self.status_frame.update_status(
-                f"❌ {Label.ERROR_FILE_NOT_FOUND.value()}'{CLI_COMMAND}'.", Color.RED.value))
+                f"❌ {Label.ERROR_FILE_NOT_FOUND.value}'{CLI_COMMAND}'.", Color.RED.value))
         except subprocess.TimeoutExpired:
             self.window.after(0, lambda: self.status_frame.update_status(
-                f"❌ {Label.ERROR_TIMEOUT.value()}", Color.RED.value))
+                f"❌ {Label.ERROR_TIMEOUT.value}", Color.RED.value))
         except Exception as e:
             self.window.after(0, lambda: self.status_frame.update_status(f"❌ {Label.ERROR_CORE.value()}{e}", Color.RED.value))
         finally:
