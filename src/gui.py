@@ -7,6 +7,7 @@ from enum import Enum
 
 from label import Label
 
+
 try:
     # Resolves versioning from project specification metadata
     __version__ = metadata.version("stan")
@@ -204,7 +205,7 @@ class App:
             self.window.after(0, lambda: self.status_frame.update_status(
                 f"❌ {Label.ERROR_TIMEOUT.value}", Color.RED.value))
         except Exception as e:
-            self.window.after(0, lambda: self.status_frame.update_status(f"❌ {Label.ERROR_CORE.value()}{e}", Color.RED.value))
+            self.window.after(0, lambda: self.status_frame.update_status(f"❌ {Label.ERROR_CORE.value}{e}", Color.RED.value))
         finally:
             self.window.after(0, lambda: self.btn_print.config(state="normal"))
 
