@@ -4,6 +4,7 @@ import subprocess
 import threading
 from importlib import metadata
 from enum import Enum
+from pathlib import Path
 
 from label import Label
 
@@ -12,7 +13,7 @@ try:
     # Resolves versioning from project specification metadata
     __version__ = metadata.version("stan")
 except metadata.PackageNotFoundError:
-    __version__ = "1.0"
+    __version__ = "1.1"
 
 import os
 import sys
@@ -142,6 +143,29 @@ class App:
 
         # 🙈 Hidden Response Frame (Stays packed away until execution triggers status)
         self.status_frame = HiddenFrame(self.main_frame, Label.RESULT.value)
+
+        self._set_icon()
+
+    def _set_icon(self):
+        """Gets icon file."""
+        icon_path = self._get_assets_path("assets/favicon.ico")
+        if os.path.exists(icon_path):
+            try:
+                self.window.iconbitmap(icon_path)
+            except Exception as e:
+                print(f"Loading icon failed: {e}")
+        else:
+            print(f"Icon file not found at {icon_path}")
+
+    def _get_assets_path(self, relative_path) -> str:
+        """Get absolute path to assets both for dev and executable."""
+        # When running from executable
+        if getattr(sys, 'frozen', False):
+            base_path = Path(sys._MEIPASS)
+            return str(base_path / relative_path)
+        else:
+            base_path = Path(__file__).parents[3]
+        return str(base_path / relative_path)
 
     def _prefill_fields(self) -> None:
         """Injects default state values into inputs."""
