@@ -13,7 +13,7 @@ try:
     # Resolves versioning from project specification metadata
     __version__ = metadata.version("stan")
 except metadata.PackageNotFoundError:
-    __version__ = "1.1"
+    __version__ = "2.0"
 
 import os
 import sys
@@ -191,9 +191,9 @@ class App:
             return
 
         # Compiles down into clean comma-delimited stream format
-        payload = (f"{cleaned_first_element},"
+        payload = (f"{cleaned_first_element}."
                    f"{cleaned_second_element}."
-                   f"{cleaned_third_element_range},"
+                   f"{cleaned_third_element_range}."
                    f"{cleaned_fourth_element}")
 
         self.status_frame.update_status(f"{Label.FORWARDING_DATA.value}'{payload}'.", Color.TEXT_MAIN.value)

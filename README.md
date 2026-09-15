@@ -1,3 +1,5 @@
+![](assets/favicon.ico)
+
 # Stan
 Stan is a helpful GUI, that sends your data to stdin and starts another script as subprocess. Currently supports sending data to label generator. For other applications, change the Label texts and script path.
 
