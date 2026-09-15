@@ -216,3 +216,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Environments
+.env
+.envrc
+.venv
+.idea/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
