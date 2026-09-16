@@ -1,3 +1,5 @@
+"""GUI to send data to standard output"""
+
 import glob
 import tkinter as tk
 import subprocess
