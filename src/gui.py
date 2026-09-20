@@ -15,7 +15,7 @@ try:
     # Resolves versioning from project specification metadata
     __version__ = metadata.version("stan")
 except metadata.PackageNotFoundError:
-    __version__ = "2.1"
+    __version__ = "v2.1.1"
 
 import os
 import sys

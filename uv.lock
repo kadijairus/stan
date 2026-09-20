@@ -123,7 +123,7 @@ wheels = [
 
 [[package]]
 name = "stan"
-version = "2.1"
+version = "2.1.1"
 source = { virtual = "." }
 dependencies = [
     { name = "customtkinter" },

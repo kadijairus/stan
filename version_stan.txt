@@ -1,7 +1,7 @@
 VSVersionInfo(
   ffi=FixedFileInfo(
-    filevers=(2, 1, 0, 0),
-    prodvers=(2, 1, 0, 0),
+    filevers=(2, 1, 1, 0),
+    prodvers=(2, 1, 1, 0),
     mask=0x3f,
     flags=0x0,
     OS=0x40004,
@@ -16,12 +16,12 @@ VSVersionInfo(
         '040904B0',
         [StringStruct('CompanyName', 'Kadi Jairus'),
         StringStruct('FileDescription', 'Label printing interface'),
-        StringStruct('FileVersion', '2.0.0.0'),
+        StringStruct('FileVersion', '2.1.1.0'),
         StringStruct('InternalName', 'Stan'),
         StringStruct('LegalCopyright', 'Copyright (C) 2026 Kadi Jairus'),
-        StringStruct('OriginalFilename', 'Stan-v2.1.exe'),
+        StringStruct('OriginalFilename', 'Stan-v2.1.1.exe'),
         StringStruct('ProductName', 'Stan'),
-        StringStruct('ProductVersion', '2.1.0.0')])
+        StringStruct('ProductVersion', '2.1.1.0')])
       ]),
     VarFileInfo([VarStruct('Translation', [1033, 1200])])
   ]
